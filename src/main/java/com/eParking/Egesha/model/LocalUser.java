@@ -14,8 +14,8 @@ public class LocalUser {
     @Column(name = "userId", nullable = false)
     private Integer userId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "fullName", nullable = false)
+    private String fullName;
 
     @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
@@ -38,11 +38,11 @@ public class LocalUser {
     }
 
     public String getName() {
-        return name;
+        return fullName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.fullName = name;
     }
 
     public String getUsername() {
