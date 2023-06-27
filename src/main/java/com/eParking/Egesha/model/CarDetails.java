@@ -20,7 +20,7 @@ public class CarDetails {
     private String carModel;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_name", nullable = false)
+    @JoinColumn(name = "FullName", nullable = false)
     private LocalUser user;
 
     @Column(name = "contact", nullable = false, unique = true, length = 10)
