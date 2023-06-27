@@ -2,6 +2,8 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
+import java.util.Optional;
+
 @Entity
 @Table(name = "CarDetails")
 public class CarDetails {
@@ -17,11 +19,15 @@ public class CarDetails {
     @Column(name = "carModel", nullable = false)
     private String carModel;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_name", nullable = false)
+    private LocalUser user;
 
     @Column(name = "contact", nullable = false, unique = true, length = 10)
     private String contact;
+
+    @OneToOne(mappedBy = "carDetails", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    private Ticket ticket;
 
     public Integer getCarId() {
         return carId;
@@ -47,12 +53,12 @@ public class CarDetails {
         this.carModel = carModel;
     }
 
-    public String getName() {
-        return name;
+    public LocalUser getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser(LocalUser user) {
+        this.user = user;
     }
 
     public String getContact() {
@@ -61,5 +67,13 @@ public class CarDetails {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }
