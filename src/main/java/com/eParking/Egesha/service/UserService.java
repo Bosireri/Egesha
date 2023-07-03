@@ -21,22 +21,24 @@ public class UserService {
         this.encryptionService = encryptionService;
         this.jwtService = jwtService;
     }
+
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
         if (localUserDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-                || localUserDAO.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
+                || localUserDAO.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         LocalUser user = new LocalUser();
         user.setEmail(registrationBody.getEmail());
-        user.setFullName(registrationBody.getFullName());
-        user.setUsername(registrationBody.getUsername());
+        user.setPhoneNumber(registrationBody.getPhoneNumber());
+        user.setFirstName(registrationBody.getFirstName());
+        user.setLastName(registrationBody.getLastName());
         user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
         user = localUserDAO.save(user);
         return localUserDAO.save(user);
     }
 
     public  String loginUser(LoginBody loginBody) {
-        Optional<LocalUser> opUser = localUserDAO.findByUsernameIgnoreCase(loginBody.getUsername());
+        Optional<LocalUser> opUser = localUserDAO.findByPhoneNumber(loginBody.getPhoneNumber());
         if (opUser.isPresent()) {
             LocalUser user = opUser.get();
             if (encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())) {
