@@ -14,8 +14,8 @@ public class ParkingLots {
     @Column(name = "lotId", nullable = false)
     private Integer lotId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "lotName", nullable = false)
+    private String lotName;
 
     @Column(name = "location", nullable = false)
     private String location;
@@ -38,11 +38,11 @@ public class ParkingLots {
     }
 
     public String getName() {
-        return name;
+        return lotName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String lotName) {
+        this.lotName = lotName;
     }
 
     public String getLocation() {
