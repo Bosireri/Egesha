@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface LocalUserDAO extends CrudRepository<LocalUser, Long> {
 
-    Optional<LocalUser> findByUsernameIgnoreCase(String username);
+    Optional<LocalUser> findByPhoneNumber(Integer phoneNumber);
     Optional<LocalUser> findByEmailIgnoreCase(String email);
 
 }
