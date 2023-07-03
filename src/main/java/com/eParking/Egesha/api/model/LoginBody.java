@@ -7,14 +7,14 @@ public class LoginBody {
 
     @NotNull
     @NotBlank
-    private String username;
+    private Integer phoneNumber;
 
     @NotNull
     @NotBlank
     private String password;
 
-    public String getUsername() {
-        return username;
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getPassword() {
