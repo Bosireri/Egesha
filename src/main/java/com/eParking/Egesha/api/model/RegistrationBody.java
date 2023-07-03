@@ -6,12 +6,16 @@ public class RegistrationBody {
 
     @NotNull
     @NotBlank
-    private String fullName;
+    private String firstName;
 
     @NotNull
     @NotBlank
-    @Size(min=4, max=20)
-    private String username;
+    private String lastName;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 10, max = 13)
+    private Integer phoneNumber;
 
     @NotNull
     @NotBlank
@@ -24,12 +28,16 @@ public class RegistrationBody {
     @Size(min=8, max=20)
     private String password;
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getEmail() {
