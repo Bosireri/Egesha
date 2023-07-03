@@ -2,6 +2,8 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "Ticket")
 public class Ticket {
@@ -20,10 +22,10 @@ public class Ticket {
     private ParkingSpace parkingSpace;
 
     @Column(name = "entryTime", nullable = false)
-    private Double entryTime;
+    private LocalDateTime entryTime;
 
     @Column(name = "exitTime", nullable = false)
-    private Double exitTime;
+    private LocalDateTime exitTime;
 
     @Column(name = "paymentStatus", nullable = false)
     private String paymentStatus;
@@ -52,19 +54,19 @@ public class Ticket {
         this.parkingSpace = parkingSpace;
     }
 
-    public Double getEntryTime() {
+    public LocalDateTime getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(Double entryTime) {
+    public void setEntryTime(LocalDateTime entryTime) {
         this.entryTime = entryTime;
     }
 
-    public Double getExitTime() {
+    public LocalDateTime getExitTime() {
         return exitTime;
     }
 
-    public void setExitTime(Double exitTime) {
+    public void setExitTime(LocalDateTime exitTime) {
         this.exitTime = exitTime;
     }
 
