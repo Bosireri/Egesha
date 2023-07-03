@@ -14,11 +14,14 @@ public class LocalUser {
     @Column(name = "userId", nullable = false)
     private Integer userId;
 
-    @Column(name = "fullName", nullable = false)
-    private String fullName;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
 
-    @Column(name = "username", nullable = false, unique = true, length = 20)
-    private String username;
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "phoneNumber", nullable = false, unique = true, length = 13)
+    private Integer phoneNumber;
 
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
@@ -37,20 +40,28 @@ public class LocalUser {
         this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String name) {
-        this.fullName = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -76,4 +87,5 @@ public class LocalUser {
     public void setCars(List<CarDetails> cars) {
         Cars = cars;
     }
+
 }
