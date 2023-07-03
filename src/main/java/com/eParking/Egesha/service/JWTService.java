@@ -19,7 +19,7 @@ public class JWTService {
     @Value("${jwt.expiryInSeconds}")
     private int expiryInSeconds;
     private Algorithm algorithm;
-    private static final String USERNAME_KEY = "USERNAME";
+    private static final String PHONENUMBER_KEY = "USERNAME";
 
     @PostConstruct
     public void postConstruct() {
@@ -28,7 +28,7 @@ public class JWTService {
 
     public String generateJWT(LocalUser user) {
         return JWT.create()
-                .withClaim(USERNAME_KEY, user.getPhoneNumber())
+                .withClaim(PHONENUMBER_KEY, user.getPhoneNumber())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * expiryInSeconds)))
                 .withIssuer(issuer)
                 .sign(algorithm);
