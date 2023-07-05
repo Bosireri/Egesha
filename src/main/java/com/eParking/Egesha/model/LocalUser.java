@@ -20,8 +20,8 @@ public class LocalUser {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(name = "phoneNumber", nullable = false, unique = true, length = 13)
-    private Integer phoneNumber;
+    @Column(name = "phoneNumber", nullable = false, unique = true)
+    private Long phoneNumber;
 
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
@@ -56,11 +56,11 @@ public class LocalUser {
         this.lastName = lastName;
     }
 
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
