@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface LocalUserRepository extends CrudRepository<LocalUser, Long> {
 
-    Optional<LocalUser> findByPhoneNumber(Integer phoneNumber);
+    Optional<LocalUser> findByPhoneNumber(Long phoneNumber);
     Optional<LocalUser> findByEmailIgnoreCase(String email);
-
 }
