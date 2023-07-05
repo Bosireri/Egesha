@@ -19,7 +19,7 @@ public class JWTService {
     @Value("${jwt.expiryInSeconds}")
     private int expiryInSeconds;
     private Algorithm algorithm;
-    private static final String PHONENUMBER_KEY = "USERNAME";
+    private static final String PHONENUMBER_KEY = "PHONENUMBER";
 
     @PostConstruct
     public void postConstruct() {
