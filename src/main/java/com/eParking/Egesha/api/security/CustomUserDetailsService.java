@@ -1,4 +1,4 @@
-package com.eParking.Egesha.service;
+package com.eParking.Egesha.api.security;
 
 import com.eParking.Egesha.model.Admin;
 import com.eParking.Egesha.model.LocalUser;
