@@ -1,4 +1,4 @@
-package com.eParking.Egesha.api.model;
+package com.eParking.Egesha.api.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
