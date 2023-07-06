@@ -1,20 +1,11 @@
-package com.eParking.Egesha.api.model;
+package com.eParking.Egesha.api.dto;
 
     
 public class AdminLoginResponse {
 
-    private String jwt;
     private String token;
     private boolean success;
     private String message;
-
-    public String getJwt() {
-        return jwt;
-    }
-
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
 
     public String getToken() {
         return token;
