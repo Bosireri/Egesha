@@ -1,12 +1,12 @@
 package com.eParking.Egesha.api.controller.auth;
 
-import com.eParking.Egesha.api.model.*;
+import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
-import com.eParking.Egesha.service.CustomUserDetailsService;
+import com.eParking.Egesha.api.security.CustomUserDetailsService;
 import com.eParking.Egesha.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +22,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-
+    @Autowired
     private UserService userService;
-
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
-
+    @Autowired
     private AdminRepository adminRepository;
-
-    private AdminRegistration adminRegistration;
-
+    @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JWTGenerator jwtGenerator;
-
-//    public AuthenticationController (AdminService adminService){
-//        this.adminService = adminService;
-//    }
 
     @PostMapping("/registerAdmin")
     public ResponseEntity registerAdmin (@Valid @RequestBody AdminRegistration adminRegistration) {
@@ -54,7 +48,7 @@ public class AuthenticationController {
         return new ResponseEntity<String>("Admin Registered Successfully", HttpStatus.CREATED);
     }
 
-    @PostMapping("loginAdmin")
+    @PostMapping("/loginAdmin")
     public ResponseEntity<AdminLoginResponse> login(@Valid @RequestBody AdminLoginBody adminLoginBody) {
         System.out.println("adminLogin");
         customUserDetailsService.setUserType(UserType.ADMIN);
@@ -94,6 +88,12 @@ public class AuthenticationController {
             response.setJwt(jwt);
             return ResponseEntity.ok(response);
         }
+    }
+
+    @PutMapping("/updateUser/{userId}")
+    public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String token) {
+        System.out.println("userUpdate");
+        return userService.updateUser(userId, userUpdate);
     }
 
 }
