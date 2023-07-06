@@ -1,4 +1,4 @@
-package com.eParking.Egesha.api.model;
+package com.eParking.Egesha.api.dto;
 
 public class LoginResponse {
 
