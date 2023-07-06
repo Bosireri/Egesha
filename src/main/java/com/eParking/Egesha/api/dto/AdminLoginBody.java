@@ -1,4 +1,4 @@
-package com.eParking.Egesha.api.model;
+package com.eParking.Egesha.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
