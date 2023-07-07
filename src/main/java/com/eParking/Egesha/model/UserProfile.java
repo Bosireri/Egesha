@@ -7,6 +7,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String profilePicture;
     private String firstName;
     private String lastName;
     private String email;
@@ -42,5 +43,13 @@ public class UserProfile {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
