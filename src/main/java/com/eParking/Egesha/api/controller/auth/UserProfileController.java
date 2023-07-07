@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@RestController
+@RequestMapping("/auth")
 public class UserProfileController {
 
     @Autowired
@@ -20,6 +24,8 @@ public class UserProfileController {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    //should this emdpoint be a POST or PUT
+    //I think it should be a and update user endpoint
     @PostMapping("/profile")
     public ResponseEntity<SuccessAndMessage> userProfile (@RequestPart("name") String name, @RequestPart("pictureFile" ) MultipartFile file) {
         SuccessAndMessage response =new SuccessAndMessage();
