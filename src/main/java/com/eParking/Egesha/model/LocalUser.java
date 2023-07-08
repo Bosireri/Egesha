@@ -2,9 +2,6 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "LocalUser")
 public class LocalUser {
