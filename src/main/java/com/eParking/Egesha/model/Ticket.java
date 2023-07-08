@@ -17,9 +17,9 @@ public class Ticket {
     @JoinColumn(name = "plateNumber", nullable = false, unique = true)
     private CarDetails carDetails;
 
-    @OneToOne(optional = false, orphanRemoval = true)
-    @JoinColumn(name = "spaceNumber", nullable = false, unique = true)
-    private ParkingSpace parkingSpace;
+//    @OneToOne(optional = false, orphanRemoval = true)
+//    @JoinColumn(name = "spaceNumber", nullable = false, unique = true)
+//    private ParkingSpace parkingSpace;
 
     @Column(name = "entryTime", nullable = false)
     private LocalDateTime entryTime;
@@ -46,13 +46,13 @@ public class Ticket {
         this.carDetails = carDetails;
     }
 
-    public ParkingSpace getParkingSpace() {
-        return parkingSpace;
-    }
-
-    public void setParkingSpace(ParkingSpace parkingSpace) {
-        this.parkingSpace = parkingSpace;
-    }
+//    public ParkingSpace getParkingSpace() {
+//        return parkingSpace;
+//    }
+//
+//    public void setParkingSpace(ParkingSpace parkingSpace) {
+//        this.parkingSpace = parkingSpace;
+//    }
 
     public LocalDateTime getEntryTime() {
         return entryTime;
