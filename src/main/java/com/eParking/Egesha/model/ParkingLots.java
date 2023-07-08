@@ -2,9 +2,6 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "parking_lots")
 public class ParkingLots {
@@ -34,17 +31,6 @@ public class ParkingLots {
 
     @Column(name = "ParkingFeatures", nullable = false)
     private String parkingFeatures;
-
-    @OneToMany(mappedBy = "parkingLots", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Booking> bookings = new ArrayList<>();
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
 
     public Integer getId() {
         return id;
