@@ -2,35 +2,49 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "parking_lots")
 public class ParkingLots {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "Id", nullable = false)
     private Integer id;
 
-    @Column(name = "spaceImage", nullable = false)
+    @Column(name = "SpaceImage", nullable = false)
     private String spaceImage;
 
-    @Column(name = "spaceName", nullable = false)
+    @Column(name = "SpaceName", nullable = false)
     private String spaceName;
 
-    @Column(name = "location", nullable = false)
+    @Column(name = "Location", nullable = false)
     private String location;
 
-    @Column(name = "amount", nullable = false)
-    private Long amount;
+    @Column(name = "Amount", nullable = false)
+    private String amount;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "Description", nullable = false)
     private String description;
 
-    @Column(name = "availableSlots", nullable = false)
-    private Long availableSlots;
+    @Column(name = "AvailableSlots", nullable = false)
+    private String availableSlots;
 
-    @Column(name = "parkingFeatures", nullable = false)
-    private Long parkingFeatures;
+    @Column(name = "ParkingFeatures", nullable = false)
+    private String parkingFeatures;
+
+    @OneToMany(mappedBy = "parkingLots", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 
     public Integer getId() {
         return id;
@@ -64,11 +78,11 @@ public class ParkingLots {
         this.location = location;
     }
 
-    public Long getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -80,19 +94,19 @@ public class ParkingLots {
         this.description = description;
     }
 
-    public Long getAvailableSlots() {
+    public String getAvailableSlots() {
         return availableSlots;
     }
 
-    public void setAvailableSlots(Long availableSlots) {
+    public void setAvailableSlots(String availableSlots) {
         this.availableSlots = availableSlots;
     }
 
-    public Long getParkingFeatures() {
+    public String getParkingFeatures() {
         return parkingFeatures;
     }
 
-    public void setParkingFeatures(Long parkingFeatures) {
+    public void setParkingFeatures(String parkingFeatures) {
         this.parkingFeatures = parkingFeatures;
     }
 }
