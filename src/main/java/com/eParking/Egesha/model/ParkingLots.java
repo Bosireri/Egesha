@@ -23,6 +23,9 @@ public class ParkingLots {
     @Column(name = "amount", nullable = false)
     private Long amount;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Column(name = "availableSlots", nullable = false)
     private Long availableSlots;
 
@@ -67,6 +70,14 @@ public class ParkingLots {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getAvailableSlots() {
