@@ -29,9 +29,6 @@ public class LocalUser {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<CarDetails> Cars = new ArrayList<>();
-
     public Integer getUserId() {
         return userId;
     }
@@ -78,14 +75,6 @@ public class LocalUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<CarDetails> getCars() {
-        return Cars;
-    }
-
-    public void setCars(List<CarDetails> cars) {
-        Cars = cars;
     }
 
 }
