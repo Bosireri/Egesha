@@ -8,6 +8,18 @@ public class UserDetails {
     private Long phoneNumber;
     private String email;
 
+    public UserDetails(Integer userId, String firstName, String lastName, Long phoneNumber, String email) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public UserDetails() {
+
+    }
+
     public Integer getUserId() {
         return userId;
     }
