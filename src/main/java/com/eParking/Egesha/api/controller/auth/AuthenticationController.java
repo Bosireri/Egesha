@@ -6,7 +6,8 @@ import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
-import com.eParking.Egesha.api.security.CustomUserDetailsService;
+import com.eParking.Egesha.service.CustomUserDetailsService;
+import com.eParking.Egesha.model.dao.LocalUserRepository;
 import com.eParking.Egesha.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
-    private UserService userService;
+    UserService userService;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    CustomUserDetailsService customUserDetailsService;
     @Autowired
-    private AdminRepository adminRepository;
+    AdminRepository adminRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    LocalUserRepository localUserRepository;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JWTGenerator jwtGenerator;
+    SuccessAndMessage successAndMessage;
 
-    @Autowired
-    private JWTGenerator jwtGenerator;
 
     @PostMapping("/registerAdmin")
     public ResponseEntity registerAdmin (@Valid @RequestBody AdminRegistration adminRegistration) {
@@ -68,32 +72,31 @@ public class AuthenticationController {
     public AuthenticationController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/registerUser")
-    public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
+    public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
         try {
+            SuccessAndMessage response= new SuccessAndMessage();
             userService.registerUser(registrationBody);
-            return ResponseEntity.ok().build();
-        } catch (UserAlreadyExistsException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            response.setMessage("User Registered Successfully");
+            response.setSuccess(true);
+            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
+        } catch (UserAlreadyExistsException e) {
+            SuccessAndMessage response = new SuccessAndMessage();
+            response.setMessage("Phone Number Already Registered");
+            response.setSuccess(true);
+            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
         }
     }
-
-    @PostMapping("/loginUser")
-    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody) {
-        String jwt = userService.loginUser(loginBody);
-        if (jwt == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } else {
-            LoginResponse response = new LoginResponse();
-            response.setJwt(jwt);
-            return ResponseEntity.ok(response);
-        }
+    @PostMapping("loginUser")
+    public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
+        System.out.println("userLogin");
+        return userService.loginUser(loginBody);
     }
 
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String token) {
+    public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId,@Valid @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String jwt) {
         System.out.println("userUpdate");
         return userService.updateUser(userId, userUpdate);
     }
-
 }
