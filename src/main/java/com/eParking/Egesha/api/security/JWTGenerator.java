@@ -47,7 +47,7 @@ public class JWTGenerator {
             return true;
         }
         catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT token not Valid" + token);
+            throw new AuthenticationCredentialsNotFoundException("JWT token not Valid " + token);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.eParking.Egesha.api.security;
 
+import com.eParking.Egesha.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

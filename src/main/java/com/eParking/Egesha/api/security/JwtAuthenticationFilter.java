@@ -1,6 +1,7 @@
 package com.eParking.Egesha.api.security;
 
 import com.eParking.Egesha.model.UserType;
+import com.eParking.Egesha.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
