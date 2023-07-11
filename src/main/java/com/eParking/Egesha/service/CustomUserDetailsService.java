@@ -1,4 +1,4 @@
-package com.eParking.Egesha.api.security;
+package com.eParking.Egesha.service;
 
 import com.eParking.Egesha.model.Admin;
 import com.eParking.Egesha.model.LocalUser;
@@ -50,11 +50,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         } else if (userType == UserType.LOCALUSER) {
             LocalUser localUser = localUserRepository.findByEmailIgnoreCase(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("LocalUser Email "+ username + "not found"));
+                    .orElseThrow(() -> new UsernameNotFoundException("LocalUser  "+ username + "not found"));
             SimpleGrantedAuthority adminAuthority = new SimpleGrantedAuthority(UserType.LOCALUSER.toString());
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(adminAuthority);
-            return new User(localUser.getEmail(), localUser.getPassword(), authorities);
+            return new org.springframework.security.core.userdetails.User(localUser.getEmail(), localUser.getPassword(), authorities);
         }
         return null;
     }
