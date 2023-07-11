@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface LocalUserRepository extends JpaRepository<LocalUser, Integer> {
 
     Optional<LocalUser> findByPhoneNumber(Long phoneNumber);
+    boolean existsByPhoneNumber(Long phoneNumber);
     Optional<LocalUser> findByEmailIgnoreCase(String email);
+    boolean existsByEmail(String email);
 }
