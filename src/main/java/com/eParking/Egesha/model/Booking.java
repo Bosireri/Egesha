@@ -28,10 +28,10 @@ public class Booking {
     @Column(name = "Date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "From", nullable = false)
+    @Column(name = "From(Time)", nullable = false)
     private LocalTime from;
 
-    @Column(name = "To", nullable = false)
+    @Column(name = "To(Time)", nullable = false)
     private LocalTime to;
 
     @Column(name = "TotalPayment")

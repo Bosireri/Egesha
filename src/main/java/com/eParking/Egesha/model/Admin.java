@@ -2,6 +2,8 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "admin_details")
 public class Admin {

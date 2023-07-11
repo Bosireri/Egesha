@@ -29,8 +29,11 @@ public class ParkingLots {
     @Column(name = "AvailableSlots", nullable = false)
     private String availableSlots;
 
-    @Column(name = "ParkingFeatures", nullable = false)
-    private String parkingFeatures;
+    @Column(name = "SecurityFeatures", nullable = false)
+    private String securityFeatures;
+
+    @Column(name = "AboutFeatures", nullable = false)
+    private String aboutFeatures;
 
     public Integer getId() {
         return id;
@@ -88,11 +91,19 @@ public class ParkingLots {
         this.availableSlots = availableSlots;
     }
 
-    public String getParkingFeatures() {
-        return parkingFeatures;
+    public String getSecurityFeatures() {
+        return securityFeatures;
     }
 
-    public void setParkingFeatures(String parkingFeatures) {
-        this.parkingFeatures = parkingFeatures;
+    public void setSecurityFeatures(String securityFeatures) {
+        this.securityFeatures = securityFeatures;
+    }
+
+    public String getAboutFeatures() {
+        return aboutFeatures;
+    }
+
+    public void setAboutFeatures(String aboutFeatures) {
+        this.aboutFeatures = aboutFeatures;
     }
 }
