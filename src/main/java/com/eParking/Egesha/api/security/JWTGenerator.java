@@ -30,7 +30,7 @@ public class JWTGenerator {
                 .setSigningKey(SecurityConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.get("userType").toString();
+        return claims.getSubject();
     }
 
     public String getUserTypeFromJWT(String token) {
@@ -47,7 +47,7 @@ public class JWTGenerator {
             return true;
         }
         catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT token not Valid " + token);
+            throw new AuthenticationCredentialsNotFoundException("JWT token not Valid" + token);
         }
     }
 }
