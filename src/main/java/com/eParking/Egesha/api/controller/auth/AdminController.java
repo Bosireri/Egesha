@@ -19,15 +19,15 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/registerUser")
-    public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
-        try {
-            userService.registerUser(registrationBody);
-            return ResponseEntity.ok().build();
-        } catch (UserAlreadyExistsException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-    }
+//    @PostMapping("/registerUser")
+//    public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
+//        try {
+//            userService.registerUser(registrationBody);
+//            return ResponseEntity.ok().build();
+//        } catch (UserAlreadyExistsException ex) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//        }
+//    }
 
     @PutMapping("/updateUser/{userId}")
         public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String token) {
@@ -47,10 +47,10 @@ public class AdminController {
         return adminService.deleteAllUsers();
     }
 
-    @GetMapping("/allUsers")
-    public ResponseEntity<AllUsersResponse> allUsers(@RequestHeader(name="Authorization") String token) {
-        System.out.println("allUsers");
-        return adminService.allUsers();
-    }
+//    @GetMapping("/allUsers")
+//    public ResponseEntity<AllUsersResponse> allUsers(@RequestHeader(name="Authorization") String token) {
+//        System.out.println("allUsers");
+//        return adminService.allUsers();
+//    }
 
 }
