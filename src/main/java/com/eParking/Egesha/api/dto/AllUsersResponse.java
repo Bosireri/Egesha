@@ -6,7 +6,7 @@ public class AllUsersResponse {
 
     private boolean success;
     private String message;
-    private ArrayList<UserDetails> users;
+    private ArrayList<LocalUserDetails> users;
 
     public boolean isSuccess() {
         return success;
@@ -24,11 +24,11 @@ public class AllUsersResponse {
         this.message = message;
     }
 
-    public ArrayList<UserDetails> getUsers() {
+    public ArrayList<LocalUserDetails> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<UserDetails> users) {
+    public void setUsers(ArrayList<LocalUserDetails> users) {
         this.users = users;
     }
 }
