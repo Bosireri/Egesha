@@ -4,6 +4,7 @@ import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
+import com.eParking.Egesha.model.LocalUser;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
 import com.eParking.Egesha.service.CustomUserDetailsService;
@@ -19,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -38,7 +41,6 @@ public class AuthenticationController {
     @Autowired
     JWTGenerator jwtGenerator;
     SuccessAndMessage successAndMessage;
-
 
     @PostMapping("/registerAdmin")
     public ResponseEntity registerAdmin (@Valid @RequestBody AdminRegistration adminRegistration) {
@@ -88,6 +90,8 @@ public class AuthenticationController {
             return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
         }
     }
+
+
     @PostMapping("loginUser")
     public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
         System.out.println("userLogin");
