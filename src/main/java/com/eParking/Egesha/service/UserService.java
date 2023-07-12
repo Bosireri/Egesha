@@ -1,6 +1,7 @@
 package com.eParking.Egesha.service;
 
 import com.eParking.Egesha.api.dto.*;
+import com.eParking.Egesha.api.security.WebSecurityConfig;
 import com.eParking.Egesha.model.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
@@ -35,6 +36,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private LocalUser localUser;
+    @Autowired
+    WebSecurityConfig webSecurityConfig;
 
     public ResponseEntity<String> registerAdmin (AdminRegistration adminRegistration) {
         if (adminRepository.existsByUsername(adminRegistration.getUsername())) {
@@ -72,46 +75,30 @@ public class UserService {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    public ResponseEntity<SuccessAndMessage> registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-        System.out.println("registerUser");
-        SuccessAndMessage response = new SuccessAndMessage();
-        if(localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
-            response.setMessage("PhoneNumber is already registered !!");
-            response.setSuccess(false);
-            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.BAD_REQUEST);
+    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
+        if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
+                || localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
+            throw new UserAlreadyExistsException();
         }
         LocalUser user = new LocalUser();
+        user.setEmail(registrationBody.getEmail());
+        user.setPhoneNumber(registrationBody.getPhoneNumber());
         user.setFirstName(registrationBody.getFirstName());
         user.setLastName(registrationBody.getLastName());
-        user.setPhoneNumber(registrationBody.getPhoneNumber());
-        user.setEmail(registrationBody.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationBody.getPassword()));
-        localUserRepository.save(user);
-        response.setMessage("User Created Successfully !!");
-        response.setSuccess(true);
-        return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
+        user.setPassword(webSecurityConfig.passwordEncoder().encode(registrationBody.getPassword()));
+        user = localUserRepository.save(user);
+        return localUserRepository.save(user);
     }
 
-//    public  String loginUser(LoginBody loginBody) {
-//        Optional<LocalUser> opUser = localUserRepository.findByPhoneNumber(loginBody.getPhoneNumber());
-//        if (opUser.isPresent()) {
-//            LocalUser user = opUser.get();
-//            if (encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())) {
-//                return jwtService.generateJWT(user);
-//            }
-//        }
-//        return null;
-//    }
-
-    public ResponseEntity<UserLoginResponse> loginUser(LoginBody loginBody) {
+    public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
         System.out.println("userLogin");
         customUserDetailsService.setUserType(UserType.LOCALUSER);
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginBody.getPhoneNumber(), loginBody.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginBody.getEmail(), loginBody.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication, UserType.LOCALUSER.toString());
         UserLoginResponse response= new UserLoginResponse();
-        LocalUser user = localUserRepository.findByPhoneNumber(loginBody.getPhoneNumber()).orElseThrow();
+        LocalUser user = localUserRepository.findByEmailIgnoreCase(loginBody.getEmail()).orElseThrow();
         String encodedPassword = user.getPassword();
         String passedPassword = loginBody.getPassword();
         boolean passwordsMatch = passwordEncoder.matches(passedPassword, encodedPassword);
@@ -147,70 +134,4 @@ public class UserService {
         response.setSuccess(true);
         return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
     }
-
-
-//    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-//        SuccessAndMessage response = new SuccessAndMessage();
-//        if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-//                || localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
-//            throw new UserAlreadyExistsException();
-//        }
-//        LocalUser user = new LocalUser();
-//        user.setEmail(registrationBody.getEmail());
-//        user.setPhoneNumber(registrationBody.getPhoneNumber());
-//        user.setFirstName(registrationBody.getFirstName());
-//        user.setLastName(registrationBody.getLastName());
-//        user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
-//        user = localUserRepository.save(user);
-//        return localUserRepository.save(user);
-//    }
-
-
-
-
-    // User methods to save and revoke all tokens
-//    private void saveUserToken(LocalUser user, String jwtToken){
-//        var token = Token.builder()
-//                .user(user)
-//                .expired(false)
-//                .revoked(false)
-//                .tokenType(TokenType.BEARER)
-//                .token(jwtToken)
-//                .build();
-//        tokenRepository.save(token);
-//    }
-//
-//    private void revokeAllUserTokens(LocalUser user){
-//        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getUserId());
-//        if (validUserTokens.isEmpty())
-//            return;
-//        validUserTokens.forEach(t -> {
-//            t.setRevoked(true);
-//            t.setExpired(true);
-//        });
-//        tokenRepository.saveAll(validUserTokens);
-//    }
-//
-//    // Admin methods to save and revoke all tokens
-//    private void saveAdminToken(Admin admin, String jwtToken){
-//        var token = Token.builder()
-//                .admin(admin)
-//                .expired(false)
-//                .revoked(false)
-//                .tokenType(TokenType.BEARER)
-//                .token(jwtToken)
-//                .build();
-//        tokenRepository.save(token);
-//    }
-//
-//    private void revokeAllAdminTokens(Admin admin){
-//        var validAdminTokens = tokenRepository.findAllValidTokensByUser(admin.getId());
-//        if (validAdminTokens.isEmpty())
-//            return;
-//        validAdminTokens.forEach(t -> {
-//            t.setRevoked(true);
-//            t.setExpired(true);
-//        });
-//        tokenRepository.saveAll(validAdminTokens);
-//    }
 }
