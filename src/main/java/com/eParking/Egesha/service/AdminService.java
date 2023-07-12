@@ -94,34 +94,34 @@ public class AdminService {
         return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<AllUsersResponse> allUsers() {
-        Iterable<LocalUser> usersIterable = localUserRepository.findAll();
-        List<LocalUser> users = StreamSupport.stream(usersIterable.spliterator(), false)
-                .collect(Collectors.toList());
-
-        AllUsersResponse allUsersResponse = new AllUsersResponse();
-        ArrayList<UserDetails> userDetails = new ArrayList<>();
-
-        if (!users.isEmpty()) {
-            allUsersResponse.setMessage("All users found");
-            allUsersResponse.setSuccess(true);
-
-            for (LocalUser user : users) {
-                UserDetails userDetail = new UserDetails();
-                userDetail.setUserId(user.getUserId());
-                userDetail.setFirstName(user.getFirstName());
-                userDetail.setLastName(user.getLastName());
-                userDetail.setPhoneNumber(user.getPhoneNumber());
-                userDetail.setEmail(user.getEmail());
-                userDetails.add(userDetail);
-            }
-
-            allUsersResponse.setUsers(userDetails);
-            return ResponseEntity.ok().body(allUsersResponse);
-        }
-
-        allUsersResponse.setSuccess(false);
-        allUsersResponse.setMessage("No Users Found");
-        return ResponseEntity.badRequest().body(allUsersResponse);
-    }
+//    public ResponseEntity<AllUsersResponse> allUsers() {
+//        Iterable<LocalUser> usersIterable = localUserRepository.findAll();
+//        List<LocalUser> users = StreamSupport.stream(usersIterable.spliterator(), false)
+//                .collect(Collectors.toList());
+//
+//        AllUsersResponse allUsersResponse = new AllUsersResponse();
+//        ArrayList<LocalUserDetails> userDetails = new ArrayList<>();
+//
+//        if (!users.isEmpty()) {
+//            allUsersResponse.setMessage("All users found");
+//            allUsersResponse.setSuccess(true);
+//
+//            for (LocalUser user : users) {
+//                LocalUserDetails userDetail = new UserDetails();
+//                userDetail.setUserId(user.getUserId());
+//                userDetail.setFirstName(user.getFirstName());
+//                userDetail.setLastName(user.getLastName());
+//                userDetail.setPhoneNumber(user.getPhoneNumber());
+//                userDetail.setEmail(user.getEmail());
+//                userDetails.add(userDetail);
+//            }
+//
+//            allUsersResponse.setUsers(userDetails);
+//            return ResponseEntity.ok().body(allUsersResponse);
+//        }
+//
+//        allUsersResponse.setSuccess(false);
+//        allUsersResponse.setMessage("No Users Found");
+//        return ResponseEntity.badRequest().body(allUsersResponse);
+//    }
 }
