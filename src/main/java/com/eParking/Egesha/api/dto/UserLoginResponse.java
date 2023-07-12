@@ -61,6 +61,9 @@ public class UserLoginResponse {
     private String token;
     private String message;
     private LocalUserDetails user;
+    public boolean isSucces() {
+        return success;
+    }
 
     public boolean isSuccess() {
         return success;
@@ -90,7 +93,11 @@ public class UserLoginResponse {
         return user;
     }
 
-    public void setUser(Integer userId, String firstName, String lastName, Long phoneNumber, String email, String password) {
+    public void setUser(LocalUserDetails user) {
+        this.user = user;
+    }
+
+    public void setUser(Integer userId, String firstName, String lastName, Long phoneNumber, String email) {
         this.user = new LocalUserDetails(firstName, lastName, phoneNumber, email, userId);
     }
 
