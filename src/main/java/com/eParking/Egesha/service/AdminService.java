@@ -2,15 +2,19 @@ package com.eParking.Egesha.service;
 
 import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
+import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.LocalUser;
 import com.eParking.Egesha.model.dao.AdminRepository;
 import com.eParking.Egesha.model.dao.LocalUserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,23 +37,6 @@ public class AdminService {
     @Autowired
     private JWTGenerator jwtGenerator;
 
-//    @Autowired
-//    private EncryptionService encryptionService;
-//
-//    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-//        if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-//                || localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
-//            throw new UserAlreadyExistsException();
-//        }
-//        LocalUser user = new LocalUser();
-//        user.setEmail(registrationBody.getEmail());
-//        user.setPhoneNumber(registrationBody.getPhoneNumber());
-//        user.setFirstName(registrationBody.getFirstName());
-//        user.setLastName(registrationBody.getLastName());
-//        user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
-//        user = localUserRepository.save(user);
-//        return localUserRepository.save(user);
-//    }
 
     public ResponseEntity<SuccessAndMessage> updateUser(Integer userId, UserUpdate userUpdate){
         System.out.println("userUpdate");
@@ -94,34 +81,4 @@ public class AdminService {
         return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
     }
 
-//    public ResponseEntity<AllUsersResponse> allUsers() {
-//        Iterable<LocalUser> usersIterable = localUserRepository.findAll();
-//        List<LocalUser> users = StreamSupport.stream(usersIterable.spliterator(), false)
-//                .collect(Collectors.toList());
-//
-//        AllUsersResponse allUsersResponse = new AllUsersResponse();
-//        ArrayList<LocalUserDetails> userDetails = new ArrayList<>();
-//
-//        if (!users.isEmpty()) {
-//            allUsersResponse.setMessage("All users found");
-//            allUsersResponse.setSuccess(true);
-//
-//            for (LocalUser user : users) {
-//                LocalUserDetails userDetail = new UserDetails();
-//                userDetail.setUserId(user.getUserId());
-//                userDetail.setFirstName(user.getFirstName());
-//                userDetail.setLastName(user.getLastName());
-//                userDetail.setPhoneNumber(user.getPhoneNumber());
-//                userDetail.setEmail(user.getEmail());
-//                userDetails.add(userDetail);
-//            }
-//
-//            allUsersResponse.setUsers(userDetails);
-//            return ResponseEntity.ok().body(allUsersResponse);
-//        }
-//
-//        allUsersResponse.setSuccess(false);
-//        allUsersResponse.setMessage("No Users Found");
-//        return ResponseEntity.badRequest().body(allUsersResponse);
-//    }
 }
