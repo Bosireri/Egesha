@@ -19,15 +19,22 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("/registerUser")
-//    public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
-//        try {
-//            userService.registerUser(registrationBody);
-//            return ResponseEntity.ok().build();
-//        } catch (UserAlreadyExistsException ex) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//        }
-//    }
+
+    @PostMapping("/registerUser")
+    public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
+        try {
+            SuccessAndMessage response= new SuccessAndMessage();
+            userService.registerUser(registrationBody);
+            response.setMessage("User Registered Successfully");
+            response.setSuccess(true);
+            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
+        } catch (UserAlreadyExistsException e) {
+            SuccessAndMessage response = new SuccessAndMessage();
+            response.setMessage("Phone Number Already Registered");
+            response.setSuccess(true);
+            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
+        }
+    }
 
     @PutMapping("/updateUser/{userId}")
         public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String token) {
