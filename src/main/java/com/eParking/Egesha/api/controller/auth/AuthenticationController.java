@@ -85,13 +85,11 @@ public class AuthenticationController {
             return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
         } catch (UserAlreadyExistsException e) {
             SuccessAndMessage response = new SuccessAndMessage();
-            response.setMessage("Phone Number Already Registered");
+            response.setMessage("Email Already Registered");
             response.setSuccess(true);
             return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
         }
     }
-
-
     @PostMapping("loginUser")
     public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
         System.out.println("userLogin");
