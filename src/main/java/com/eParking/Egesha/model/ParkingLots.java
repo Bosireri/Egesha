@@ -2,6 +2,9 @@ package com.eParking.Egesha.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "parking_lots")
 public class ParkingLots {
@@ -10,9 +13,6 @@ public class ParkingLots {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Integer id;
-
-    @Column(name = "SpaceImage", nullable = false)
-    private String spaceImage;
 
     @Column(name = "SpaceName", nullable = false)
     private String spaceName;
@@ -26,14 +26,25 @@ public class ParkingLots {
     @Column(name = "Description", nullable = false)
     private String description;
 
-    @Column(name = "AvailableSlots", nullable = false)
-    private String availableSlots;
-
     @Column(name = "SecurityFeatures", nullable = false)
     private String securityFeatures;
 
     @Column(name = "AboutFeatures", nullable = false)
     private String aboutFeatures;
+
+    @Column(name = "SpaceImage", nullable = false)
+    private String spaceImage;
+
+    @OneToMany(mappedBy = "lots", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<AvailableSpots> availableSpots = new ArrayList<>();
+
+    public List<AvailableSpots> getAvailableSpots() {
+        return availableSpots;
+    }
+
+    public void setAvailableSpots(List<AvailableSpots> availableSpots) {
+        this.availableSpots = availableSpots;
+    }
 
     public Integer getId() {
         return id;
@@ -81,14 +92,6 @@ public class ParkingLots {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getAvailableSlots() {
-        return availableSlots;
-    }
-
-    public void setAvailableSlots(String availableSlots) {
-        this.availableSlots = availableSlots;
     }
 
     public String getSecurityFeatures() {
