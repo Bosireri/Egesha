@@ -1,9 +1,12 @@
 package com.eParking.Egesha.api.dto;
 
+import com.eParking.Egesha.model.ParkingLots;
+
 public class SuccessAndMessage {
 
     private boolean success;
     private String message;
+
 
     public boolean isSuccess() {
         return success;
