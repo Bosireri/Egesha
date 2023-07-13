@@ -104,13 +104,13 @@ public class UserService {
         boolean passwordsMatch = passwordEncoder.matches(passedPassword, encodedPassword);
         if(passwordsMatch){
             response.setSuccess(true);
-            response.setMessage("login successful !!");
+            response.setMessage("login successful");
             response.setToken(token);
             response.setUser(user.getFirstName(), user.getEmail(), user.getUserId(), user.getPhoneNumber(), user.getLastName());
             return new ResponseEntity<UserLoginResponse>(response, HttpStatus.OK);
         }
         response.setSuccess(false);
-        response.setMessage("incorrect PhoneNumber or password");
+        response.setMessage("Incorrect PhoneNumber or password");
         return new ResponseEntity<UserLoginResponse>(response, HttpStatus.UNAUTHORIZED);
     }
 
