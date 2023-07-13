@@ -38,7 +38,7 @@ public class JWTGenerator {
                 .setSigningKey(SecurityConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.get("usertype").toString();
+        return claims.get("userType").toString();
     }
 
     public boolean validateToken(String token) {
