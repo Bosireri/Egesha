@@ -80,5 +80,4 @@ public class AdminService {
         response.setSuccess(true);
         return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
     }
-
 }
