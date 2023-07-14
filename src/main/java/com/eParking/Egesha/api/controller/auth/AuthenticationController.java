@@ -4,10 +4,9 @@ import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
-import com.eParking.Egesha.model.LocalUser;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
-import com.eParking.Egesha.service.CustomUserDetailsService;
+import com.eParking.Egesha.service.UserTypeService;
 import com.eParking.Egesha.model.dao.LocalUserRepository;
 import com.eParking.Egesha.service.UserService;
 import jakarta.validation.Valid;
@@ -21,15 +20,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
     UserService userService;
     @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    UserTypeService userTypeService;
     @Autowired
     AdminRepository adminRepository;
     @Autowired
@@ -57,7 +54,7 @@ public class AuthenticationController {
     @PostMapping("/loginAdmin")
     public ResponseEntity<AdminLoginResponse> login(@Valid @RequestBody AdminLoginBody adminLoginBody) {
         System.out.println("adminLogin");
-        customUserDetailsService.setUserType(UserType.ADMIN);
+        userTypeService.setUserType(UserType.ADMIN);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(adminLoginBody.getUsername(), adminLoginBody.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -85,9 +82,9 @@ public class AuthenticationController {
             return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
         } catch (UserAlreadyExistsException e) {
             SuccessAndMessage response = new SuccessAndMessage();
-            response.setMessage("Email Already Registered");
-            response.setSuccess(true);
-            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
+            response.setMessage("PhoneNumber Already Registered");
+            response.setSuccess(false);
+            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.CONFLICT);
         }
     }
     @PostMapping("loginUser")
