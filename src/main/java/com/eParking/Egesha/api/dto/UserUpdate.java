@@ -4,7 +4,7 @@ public class UserUpdate {
 
     private String firstName;
     private String lastName;
-    private Long phoneNumber;
+    private String phoneNumber;
     private String email;
     private String password;
 
@@ -24,11 +24,11 @@ public class UserUpdate {
         this.lastName = lastName;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

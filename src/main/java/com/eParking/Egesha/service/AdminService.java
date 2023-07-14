@@ -2,25 +2,17 @@ package com.eParking.Egesha.service;
 
 import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
-import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.LocalUser;
 import com.eParking.Egesha.model.dao.AdminRepository;
 import com.eParking.Egesha.model.dao.LocalUserRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class AdminService {
@@ -31,7 +23,7 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserTypeService userTypeService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired

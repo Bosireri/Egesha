@@ -28,7 +28,7 @@ public class UserService {
     @Autowired
     private AdminRepository adminRepository;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserTypeService userTypeService;
     @Autowired
     private JWTGenerator jwtGenerator;
     @Autowired
@@ -52,7 +52,7 @@ public class UserService {
 
     public ResponseEntity<AdminLoginResponse> loginAdmin(@RequestBody AdminLoginBody adminLoginBody) {
         System.out.println("loginAdmin");
-        customUserDetailsService.setUserType(UserType.ADMIN);
+        userTypeService.setUserType(UserType.ADMIN);
         ;
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(adminLoginBody.getUsername(), adminLoginBody.getPassword()));
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-        if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
+        if (localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()
                 || localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
@@ -92,13 +92,13 @@ public class UserService {
 
     public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
         System.out.println("userLogin");
-        customUserDetailsService.setUserType(UserType.LOCALUSER);
+        userTypeService.setUserType(UserType.LOCALUSER);
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginBody.getEmail(), loginBody.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginBody.getPhoneNumber(), loginBody.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication, UserType.LOCALUSER.toString());
         UserLoginResponse response= new UserLoginResponse();
-        LocalUser user = localUserRepository.findByEmailIgnoreCase(loginBody.getEmail()).orElseThrow();
+        LocalUser user = localUserRepository.findByPhoneNumber(loginBody.getPhoneNumber()).orElseThrow();
         String encodedPassword = user.getPassword();
         String passedPassword = loginBody.getPassword();
         boolean passwordsMatch = passwordEncoder.matches(passedPassword, encodedPassword);

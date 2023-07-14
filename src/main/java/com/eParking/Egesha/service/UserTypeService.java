@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserTypeService implements UserDetailsService {
 
     @Autowired
     private AdminRepository adminRepository;
@@ -49,14 +49,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             return new User(admin.getUsername(), admin.getPassword(), authorities);
 
         } else if (userType == UserType.LOCALUSER) {
-            LocalUser localUser = localUserRepository.findByEmailIgnoreCase(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("LocalUser  "+ username + "not found"));
+            LocalUser localUser = localUserRepository.findByPhoneNumber(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("LocalUser  PhoneNumber"+ username + "not found"));
             SimpleGrantedAuthority adminAuthority = new SimpleGrantedAuthority(UserType.LOCALUSER.toString());
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(adminAuthority);
-            return new User(localUser.getEmail(), localUser.getPassword(), authorities);
+            return new User(localUser.getPhoneNumber(), localUser.getPassword(), authorities);
         }
         return null;
     }
-
 }
