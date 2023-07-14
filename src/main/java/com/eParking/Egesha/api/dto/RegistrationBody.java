@@ -15,7 +15,7 @@ public class RegistrationBody {
     @NotNull(message = "Phone Number is required")
     @Min(value = 1000000000L, message = "Phone Number must have at least 10 digits")
     @Max(value = 9999999999999L, message = "Phone Number must have at most 13 digits")
-    private Long phoneNumber;
+    private String phoneNumber;
 
     @NotNull
     @NotBlank
@@ -36,7 +36,7 @@ public class RegistrationBody {
         return lastName;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
