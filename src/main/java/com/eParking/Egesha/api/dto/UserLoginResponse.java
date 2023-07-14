@@ -3,11 +3,11 @@ package com.eParking.Egesha.api.dto;
 class LocalUserDetails{
     private String firstName;
     private String lastName;
-    private Long phoneNumber;
+    private String phoneNumber;
     private String email;
     private Integer userId;
 
-    public LocalUserDetails(String firstName, String lastName, Long phoneNumber, String email, Integer userId) {
+    public LocalUserDetails(String firstName, String lastName, String phoneNumber, String email, Integer userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -31,11 +31,11 @@ class LocalUserDetails{
         this.lastName = lastName;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -97,11 +97,7 @@ public class UserLoginResponse {
         this.user = user;
     }
 
-    public void setUser(Integer userId, String firstName, String lastName, Long phoneNumber, String email) {
-        this.user = new LocalUserDetails(firstName, lastName, phoneNumber, email, userId);
-    }
-
-    public void setUser(String firstName, String email, Integer userId, Long phoneNumber, String lastName) {
+    public void setUser(String firstName, String email, Integer userId, String phoneNumber, String lastName) {
         this.user = new LocalUserDetails(firstName, lastName, phoneNumber, email, userId);
     }
 }
