@@ -14,8 +14,8 @@ public class AvailableSpots {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "spot")
-    private String spot;
+    @Column(name = "spotName")
+    private String spotName;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "lot_id", nullable = false)
@@ -24,9 +24,9 @@ public class AvailableSpots {
     public AvailableSpots() {
     }
 
-    public AvailableSpots(Integer id, String spot) {
+    public AvailableSpots(Integer id, String spotName) {
         this.id = id;
-        this.spot = spot;
+        this.spotName = spotName;
     }
 
     public Integer getId() {
@@ -37,11 +37,11 @@ public class AvailableSpots {
         this.id = id;
     }
 
-    public String getSpot() {
-        return spot;
+    public String getSpotName() {
+        return spotName;
     }
 
-    public void setSpot(String spot) {
-        this.spot = spot;
+    public void setSpotName(String spotName) {
+        this.spotName = spotName;
     }
 }
