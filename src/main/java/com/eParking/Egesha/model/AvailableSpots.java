@@ -14,8 +14,11 @@ public class AvailableSpots {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "spotName")
+    @Column(name = "spotName", nullable = false)
     private String spotName;
+
+    @Column(name = "isAvailable", nullable = false)
+    private boolean isAvailable;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "lot_id", nullable = false)
@@ -24,11 +27,17 @@ public class AvailableSpots {
     public AvailableSpots() {
     }
 
-    public AvailableSpots(Integer id, String spotName) {
+
+    public AvailableSpots(Integer id, String spotName, boolean isAvailable, ParkingLots lots) {
         this.id = id;
         this.spotName = spotName;
+        this.isAvailable = isAvailable;
+        this.lots = lots;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
     public Integer getId() {
         return id;
     }
