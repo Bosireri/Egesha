@@ -12,7 +12,4 @@ public class EgeshaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EgeshaApplication.class, args);
 	}
-	LocalUser setLocalUser(){
-		return new LocalUser();
-	}
 }
