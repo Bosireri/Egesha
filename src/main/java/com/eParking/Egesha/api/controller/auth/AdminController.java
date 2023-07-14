@@ -51,7 +51,8 @@ public class AdminController {
 
 // TODO (Thursday)
     @PostMapping("/registerUser")
-    public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody, @RequestHeader (name = "Authorization") String token) throws IOException {
+    public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody,
+                                                          @RequestHeader (name = "Authorization") String token) throws IOException {
         SuccessAndMessage response = new SuccessAndMessage();
         if(localUserRepository.existsByEmail(registrationBody.getEmail())) {
             response.setMessage("Email is already registered");
@@ -71,13 +72,16 @@ public class AdminController {
     }
 
     @PutMapping("/updateUser/{userId}")
-        public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String token) {
+        public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId,
+                                                             @RequestBody UserUpdate userUpdate,
+                                                             @RequestHeader(name="Authorization") String token) {
             System.out.println("userUpdate");
             return userService.updateUser(userId, userUpdate);
     }
 
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<SuccessAndMessage> deleteUser(@PathVariable Integer userId, @RequestHeader(name="Authorization") String token) {
+    public ResponseEntity<SuccessAndMessage> deleteUser(@PathVariable Integer userId,
+                                                        @RequestHeader(name="Authorization") String token) {
         System.out.println("deleteUser");
         return adminService.deleteUser(userId);
     }
@@ -122,7 +126,7 @@ public class AdminController {
         SuccessAndMessage response = new SuccessAndMessage();
         ParkingLots existingParkingLot = parkingLotsRepository.findById(lotId).orElse(null);
         if (existingParkingLot != null) {
-            // Update the necessary fields
+
             existingParkingLot.setSpaceName(updatedParkingLot.getSpaceName());
             existingParkingLot.setLocation(updatedParkingLot.getLocation());
             existingParkingLot.setAmount(updatedParkingLot.getAmount());
@@ -131,7 +135,6 @@ public class AdminController {
             existingParkingLot.setAboutFeatures(updatedParkingLot.getAboutFeatures());
             existingParkingLot.setAvailableSpots(updatedParkingLot.getAvailableSpots());
 
-            // Save the updated parking lot
             ParkingLots updatedLot = parkingLotsRepository.save(existingParkingLot);
             response.setMessage("Parking lot updated Successfully");
             response.setSuccess(true);
@@ -162,9 +165,7 @@ public class AdminController {
         SuccessAndMessage response = new SuccessAndMessage();
         // Check if the parking lot exists in the repository
         if (parkingLotsRepository.existsById(id)) {
-            // Delete the parking lot from the repository
             parkingLotsRepository.deleteById(id);
-            // Return a success response with a message
             response.setMessage("Parking lot deleted successfully");
             response.setSuccess(true);
             return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
