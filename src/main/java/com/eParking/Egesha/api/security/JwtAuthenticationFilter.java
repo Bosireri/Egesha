@@ -1,7 +1,7 @@
 package com.eParking.Egesha.api.security;
 
 import com.eParking.Egesha.model.UserType;
-import com.eParking.Egesha.service.CustomUserDetailsService;
+import com.eParking.Egesha.service.UserTypeService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JWTGenerator jwtGenerator;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserTypeService userTypeService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -29,8 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && jwtGenerator.validateToken(token)) {
             String username = jwtGenerator.getUsernameFromJWT(token);
             String userType = jwtGenerator.getUserTypeFromJWT(token);
-            customUserDetailsService.setUserType(UserType.valueOf(userType));
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            userTypeService.setUserType(UserType.valueOf(userType));
+            UserDetails userDetails = userTypeService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
                     null, userDetails.getAuthorities());
 
