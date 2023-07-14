@@ -14,13 +14,16 @@ public class ParkingLots {
     @Column(name = "Id", nullable = false)
     private Integer id;
 
+    @Column(name = "SpaceImage", nullable = false)
+    private String spaceImage;
+
     @Column(name = "SpaceName", nullable = false)
     private String spaceName;
 
     @Column(name = "Location", nullable = false)
     private String location;
 
-    @Column(name = "Amount", nullable = false)
+    @Column(name = "AmountPerHour", nullable = false)
     private String amount;
 
     @Column(name = "Description", nullable = false)
@@ -31,9 +34,6 @@ public class ParkingLots {
 
     @Column(name = "AboutFeatures", nullable = false)
     private String aboutFeatures;
-
-    @Column(name = "SpaceImage", nullable = false)
-    private String spaceImage;
 
     @OneToMany(mappedBy = "lots", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<AvailableSpots> availableSpots = new ArrayList<>();
