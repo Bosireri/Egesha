@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookings")
+@RequestMapping("/admin/auth")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -52,6 +52,7 @@ public class BookingController {
     /*
     DIFFERENTIALS
 
+     */
     @DeleteMapping("/cancelBooking/{bookingId}")
     public ResponseEntity<String> cancelBooking(@PathVariable Integer bookingId) {
         try {
@@ -61,7 +62,6 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-     */
 
 }
 
