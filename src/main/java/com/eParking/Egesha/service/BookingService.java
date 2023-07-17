@@ -66,6 +66,7 @@ public class BookingService {
     /*
     DIFFERENTIALS
 
+     */
     @Transactional
     public void cancelBooking(Integer bookingId) {
         Booking booking = getBookingById(bookingId);
@@ -74,6 +75,4 @@ public class BookingService {
 
         bookingRepository.delete(booking);
     }
-
-     */
 }
