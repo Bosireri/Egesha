@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -76,8 +77,7 @@ public class UserService {
     }
 
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-        if (localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()
-                || localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
+        if (localUserRepository.findByPhoneNumber(registrationBody.getPhoneNumber()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         LocalUser user = new LocalUser();
