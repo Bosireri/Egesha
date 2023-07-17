@@ -20,13 +20,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
     UserService userService;
     @Autowired
-    UserTypeService userTypeService;
+    private UserTypeService userTypeService;
     @Autowired
     AdminRepository adminRepository;
     @Autowired
@@ -40,8 +42,8 @@ public class AuthenticationController {
     SuccessAndMessage successAndMessage;
 
     @PostMapping("/registerAdmin")
-    public ResponseEntity registerAdmin (@Valid @RequestBody AdminRegistration adminRegistration) {
-        if(adminRepository.existsByUsername(adminRegistration.getUsername())) {
+    public ResponseEntity registerAdmin(@Valid @RequestBody AdminRegistration adminRegistration) {
+        if (adminRepository.existsByUsername(adminRegistration.getUsername())) {
             return new ResponseEntity<String>("Username Taken", HttpStatus.BAD_REQUEST);
         }
         Admin admin = new Admin();
@@ -75,18 +77,19 @@ public class AuthenticationController {
     @PostMapping("/registerUser")
     public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
         try {
-            SuccessAndMessage response= new SuccessAndMessage();
+            SuccessAndMessage response = new SuccessAndMessage();
             userService.registerUser(registrationBody);
             response.setMessage("User Registered Successfully");
             response.setSuccess(true);
-            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.OK);
+            return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
         } catch (UserAlreadyExistsException e) {
             SuccessAndMessage response = new SuccessAndMessage();
             response.setMessage("PhoneNumber Already Registered");
             response.setSuccess(false);
-            return new ResponseEntity<SuccessAndMessage>(response,HttpStatus.CONFLICT);
+            return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.CONFLICT);
         }
     }
+
     @PostMapping("loginUser")
     public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginBody loginBody) {
         System.out.println("userLogin");
@@ -94,7 +97,7 @@ public class AuthenticationController {
     }
 
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId,@Valid @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String jwt) {
+    public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @Valid @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String jwt) {
         System.out.println("userUpdate");
         return userService.updateUser(userId, userUpdate);
     }
