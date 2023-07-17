@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BookingRepository extends JpaRepository {
+public interface BookingRepository extends JpaRepository<Booking, Integer>{
     Optional<Booking> findById(Integer id);
     boolean existsById(Integer id);
 }
