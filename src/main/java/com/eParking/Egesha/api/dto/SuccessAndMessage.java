@@ -1,6 +1,6 @@
 package com.eParking.Egesha.api.dto;
 
-import com.eParking.Egesha.model.ParkingLots;
+import java.util.Collection;
 
 public class SuccessAndMessage {
 
