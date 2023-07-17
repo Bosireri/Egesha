@@ -8,8 +8,6 @@ public class LoginBody {
     @Min(value = 1000000000L, message = "Phone Number must have at least 10 digits")
     @Max(value = 9999999999999L, message = "Phone Number must have at most 13 digits")
     private String phoneNumber;
-//    @Email
-//    private String email;
 
     @NotNull
     @NotBlank
@@ -30,12 +28,4 @@ public class LoginBody {
     public void setPassword(String password) {
         this.password = password;
     }
-
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
 }
