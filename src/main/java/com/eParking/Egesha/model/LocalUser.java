@@ -28,18 +28,6 @@ public class LocalUser {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "createdBy", referencedColumnName = "id")
-    private Admin createdBy;
-
-    public Admin getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Admin createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public Integer getUserId() {
         return userId;
     }
