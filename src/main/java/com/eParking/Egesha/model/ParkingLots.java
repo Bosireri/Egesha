@@ -35,7 +35,7 @@ public class ParkingLots {
     @Column(name = "AboutFeatures", nullable = false)
     private String aboutFeatures;
 
-    @OneToMany(mappedBy = "lots", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "parkingLotId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AvailableSpots> availableSpots = new ArrayList<>();
 
     public List<AvailableSpots> getAvailableSpots() {
