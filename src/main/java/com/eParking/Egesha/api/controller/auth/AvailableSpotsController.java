@@ -4,6 +4,7 @@ import com.eParking.Egesha.api.dto.SuccessAndMessage;
 import com.eParking.Egesha.model.AvailableSpots;
 import com.eParking.Egesha.model.dao.AvailableSpotsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,26 @@ public class AvailableSpotsController {
 
     @PostMapping("/createSpot")
     public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpots spot) {
-        AvailableSpots createdSpot = availableSpotsRepository.save(spot);
-        SuccessAndMessage response = new SuccessAndMessage();
-        response.setSuccess(true);
-        response.setMessage("Successfully created a new available spot.");
-        return ResponseEntity.ok(response);
+        try {
+            AvailableSpots createdSpot = availableSpotsRepository.save(spot);
+            if (createdSpot != null) {
+                SuccessAndMessage response = new SuccessAndMessage();
+                response.setSuccess(true);
+                response.setMessage("Successfully created a new available spot.");
+                return ResponseEntity.ok(response);
+            } else {
+                // Some issue with database, record not saved
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception e) {
+            // Handle database or other internal errors
+            SuccessAndMessage response = new SuccessAndMessage();
+            response.setSuccess(false);
+            response.setMessage("Failed to create an available spot. Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
+
 
     @GetMapping("/getSpot/{id}")
     public ResponseEntity<SuccessAndMessage> getAvailableSpotById(@PathVariable Integer id) {
