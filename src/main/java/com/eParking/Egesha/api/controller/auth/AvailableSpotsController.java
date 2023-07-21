@@ -1,14 +1,16 @@
 package com.eParking.Egesha.api.controller.auth;
 
+import com.eParking.Egesha.api.dto.AvailableSpotsBody;
 import com.eParking.Egesha.api.dto.SuccessAndMessage;
 import com.eParking.Egesha.model.AvailableSpots;
+import com.eParking.Egesha.model.ParkingLots;
 import com.eParking.Egesha.model.dao.AvailableSpotsRepository;
+import com.eParking.Egesha.model.dao.ParkingLotsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +21,50 @@ public class AvailableSpotsController {
     @Autowired
     private AvailableSpotsRepository availableSpotsRepository;
     private SuccessAndMessage successAndMessage;
+    @Autowired
+    ParkingLotsRepository parkingLotsRepository;
 
 
-    @PostMapping("/createSpot")
-    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpots spot) {
+//    @PostMapping("/createSpot")
+//    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpots spot) {
+//        try {
+//            AvailableSpots createdSpot = availableSpotsRepository.save(spot);
+//            if (createdSpot != null) {
+//                SuccessAndMessage response = new SuccessAndMessage();
+//                response.setSuccess(true);
+//                response.setMessage("Successfully created a new available spot.");
+//                return ResponseEntity.ok(response);
+//            } else {
+//                // Some issue with database, record not saved
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//            }
+//        } catch (Exception e) {
+//            // Handle database or other internal errors
+//            SuccessAndMessage response = new SuccessAndMessage();
+//            response.setSuccess(false);
+//            response.setMessage("Failed to create an available spot. Error: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+//        }
+//    }
+
+
+    @PostMapping("/createSpot/{parkingLotId}")
+    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpotsBody spotBody, @PathVariable Integer parkingLotId) {
         try {
+            // Fetch the corresponding ParkingLots object using the provided parkingLotId
+            Optional<ParkingLots> optionalParkingLot = parkingLotsRepository.findById(parkingLotId);
+            if (!optionalParkingLot.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            ParkingLots parkingLot = optionalParkingLot.get();
+
+            // Create the AvailableSpots object using the provided AvailableSpotsBody and ParkingLots objects
+            AvailableSpots spot = new AvailableSpots();
+            spot.setSpotName(spotBody.getSpotName());
+            spot.setAvailable(spotBody.isAvailable());
+            spot.setParkingLot(parkingLot);
+
             AvailableSpots createdSpot = availableSpotsRepository.save(spot);
             if (createdSpot != null) {
                 SuccessAndMessage response = new SuccessAndMessage();
@@ -31,7 +72,7 @@ public class AvailableSpotsController {
                 response.setMessage("Successfully created a new available spot.");
                 return ResponseEntity.ok(response);
             } else {
-                // Some issue with database, record not saved
+                // Some issue with the database, record not saved
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             }
         } catch (Exception e) {
@@ -42,7 +83,6 @@ public class AvailableSpotsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
 
     @GetMapping("/getSpot/{id}")
     public ResponseEntity<SuccessAndMessage> getAvailableSpotById(@PathVariable Integer id) {
@@ -65,10 +105,9 @@ public class AvailableSpotsController {
         SuccessAndMessage response = new SuccessAndMessage();
         if (optionalSpot.isPresent()) {
             AvailableSpots spot = optionalSpot.get();
-            // Update properties of the existing spot
+
             spot.setSpotName(updatedSpot.getSpotName());
             spot.setAvailable(updatedSpot.isAvailable());
-            // Update other properties as needed
 
             availableSpotsRepository.save(spot);
             response.setSuccess(true);
@@ -82,12 +121,8 @@ public class AvailableSpotsController {
     }
 
     @GetMapping("/getAllSpots")
-    public ResponseEntity<SuccessAndMessage> getAllAvailableSpots() {
-        List<AvailableSpots> spots = availableSpotsRepository.findAll();
-        SuccessAndMessage response = new SuccessAndMessage();
-        response.setSuccess(true);
-        response.setMessage("Successfully retrieved all available spots.");
-        return ResponseEntity.ok(response);
+    public List<AvailableSpots> getAllAvailableSpots() {
+        return availableSpotsRepository.findAll();
     }
 
     @DeleteMapping("/deleteSpot/{id}")
@@ -97,7 +132,7 @@ public class AvailableSpotsController {
         if (optionalSpot.isPresent()) {
             availableSpotsRepository.deleteById(id);
             response.setSuccess(true);
-            response.setMessage("Successfully deleted available spot with ID: " + id);
+            response.setMessage("Successfully deleted available spot of ID: " + id);
             return ResponseEntity.ok(response);
         } else {
             response.setSuccess(false);
