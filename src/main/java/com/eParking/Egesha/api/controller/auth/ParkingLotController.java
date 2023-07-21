@@ -70,7 +70,7 @@ public class ParkingLotController {
         }
         response.setMessage( "Parking lot not found");
         response.setSuccess(false);
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 //        return new SuccessAndMessage(false,"Parking lot not found", null);
     }
 
@@ -79,10 +79,10 @@ public class ParkingLotController {
         Optional<ParkingLots> optionalParkingLot = parkingLotsRepository.findById(id);
         // Check if the parking lot exists
         if (optionalParkingLot.isPresent()) {
-            // Return the parking lot as the response
+
             return ResponseEntity.ok(optionalParkingLot.get());
         } else {
-            // Return an error response with a message
+
             return ResponseEntity.notFound().build();
         }
     }
