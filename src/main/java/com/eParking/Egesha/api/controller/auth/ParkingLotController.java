@@ -1,24 +1,25 @@
 package com.eParking.Egesha.api.controller.auth;
 
 import com.eParking.Egesha.api.dto.SuccessAndMessage;
+import com.eParking.Egesha.api.dto.UniversalResponse;
 import com.eParking.Egesha.model.ParkingLots;
 import com.eParking.Egesha.model.dao.ParkingLotsRepository;
 import com.eParking.Egesha.service.FormService;
 import com.eParking.Egesha.service.ImageUploadService;
 import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin/auth")
+@Slf4j
 public class ParkingLotController {
 
     @Autowired
@@ -46,12 +47,10 @@ public class ParkingLotController {
             throw new RuntimeException(e);
         }
     }
-
-    // Method to update a registered parking lot
     @PutMapping("/updateParkingLot/{id}")
-    public ResponseEntity<SuccessAndMessage> updateParkingLot(Integer lotId, ParkingLots updatedParkingLot) {
+    public ResponseEntity<SuccessAndMessage> updateParkingLot(Integer id, ParkingLots updatedParkingLot) {
         SuccessAndMessage response = new SuccessAndMessage();
-        ParkingLots existingParkingLot = parkingLotsRepository.findById(lotId).orElse(null);
+        ParkingLots existingParkingLot = parkingLotsRepository.findById(id).orElse(null);
         if (existingParkingLot != null) {
 
             existingParkingLot.setSpaceName(updatedParkingLot.getSpaceName());
@@ -75,16 +74,20 @@ public class ParkingLotController {
     }
 
     @GetMapping("/displayLot/{id}")
-    public ResponseEntity<ParkingLots> getParkingLot(@PathVariable("id") Integer id) {
-        Optional<ParkingLots> optionalParkingLot = parkingLotsRepository.findById(id);
-        // Check if the parking lot exists
-        if (optionalParkingLot.isPresent()) {
-
-            return ResponseEntity.ok(optionalParkingLot.get());
-        } else {
-
-            return ResponseEntity.notFound().build();
-        }
+    public UniversalResponse getParkingLot(@PathVariable("id") Integer id) {
+        ParkingLots parkingLots =parkingLotsRepository.findById((id)).orElse(null);
+        if (parkingLots==null)
+            return UniversalResponse.builder()
+                    .message("parking not found")
+                    .status(404)
+                    .data(null)
+                    .errors(null)
+                    .build();
+        return UniversalResponse.builder()
+                .message("parking lot retrieved")
+                .status(200)
+                .data(parkingLots)
+                .build();
     }
 
     @DeleteMapping("/deleteParkingLot/{id}")
