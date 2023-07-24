@@ -1,5 +1,6 @@
 package com.eParking.Egesha.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -44,7 +45,8 @@ public class Booking {
     private LocalTime to;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parking_lot_id")
+    @JoinColumn(name = "parkingLotId")
+    @JsonIgnore
     private ParkingLots parkingLot;
     public Integer getId() {
         return id;
