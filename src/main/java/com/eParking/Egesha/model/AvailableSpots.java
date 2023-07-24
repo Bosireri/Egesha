@@ -1,5 +1,6 @@
 package com.eParking.Egesha.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +21,10 @@ public class AvailableSpots {
     @Column(name = "isAvailable", nullable = false)
     private boolean isAvailable;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parkingLotId")
-    private ParkingLots parkingLotId;
+    @JsonIgnore
+    private ParkingLots parkingLot;
 
     public AvailableSpots() {
     }
@@ -32,7 +34,7 @@ public class AvailableSpots {
         this.id = id;
         this.spotName = spotName;
         this.isAvailable = isAvailable;
-        this.parkingLotId = parkingLot;
+        this.parkingLot = parkingLot;
     }
 
     public Integer getId() {
@@ -60,10 +62,10 @@ public class AvailableSpots {
     }
 
     public ParkingLots getParkingLot() {
-        return parkingLotId;
+        return parkingLot;
     }
 
     public void setParkingLot(ParkingLots parkingLot) {
-        this.parkingLotId = parkingLot;
+        this.parkingLot = parkingLot;
     }
 }
