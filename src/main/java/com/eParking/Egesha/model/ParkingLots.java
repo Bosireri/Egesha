@@ -35,8 +35,8 @@ public class ParkingLots {
     @Column(name = "AboutFeatures", nullable = false)
     private String aboutFeatures;
 
-    @OneToMany(mappedBy = "parkingLotId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AvailableSpots> availableSpots = new ArrayList<>();
+    @OneToMany(mappedBy = "parkingLot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AvailableSpots> availableSpots;
 
     public List<AvailableSpots> getAvailableSpots() {
         return availableSpots;
