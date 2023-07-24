@@ -20,13 +20,6 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @GetMapping("/{bookingId}/check-availability/{spotName}")
-    public ResponseEntity<Boolean> isParkingSpotAvailable(@PathVariable Integer bookingId,
-                                                          @PathVariable String spotName) {
-        boolean isAvailable = bookingService.isParkingSpotAvailable(bookingId, spotName);
-        return ResponseEntity.ok(isAvailable);
-    }
-
     @PostMapping("/bookParkingSpot")
     public ResponseEntity<String> bookParkingSpot(@RequestBody Booking booking) {
         try {
@@ -35,6 +28,13 @@ public class BookingController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/{bookingId}/check-availability/{spotName}")
+    public ResponseEntity<Boolean> isParkingSpotAvailable(@PathVariable Integer bookingId,
+                                                          @PathVariable String spotName) {
+        boolean isAvailable = bookingService.isParkingSpotAvailable(bookingId, spotName);
+        return ResponseEntity.ok(isAvailable);
     }
 
     @GetMapping("/findBooking/{bookingId}")
