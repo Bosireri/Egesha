@@ -25,41 +25,17 @@ public class AvailableSpotsController {
     ParkingLotsRepository parkingLotsRepository;
 
 
-//    @PostMapping("/createSpot")
-//    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpots spot) {
-//        try {
-//            AvailableSpots createdSpot = availableSpotsRepository.save(spot);
-//            if (createdSpot != null) {
-//                SuccessAndMessage response = new SuccessAndMessage();
-//                response.setSuccess(true);
-//                response.setMessage("Successfully created a new available spot.");
-//                return ResponseEntity.ok(response);
-//            } else {
-//                // Some issue with database, record not saved
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//            }
-//        } catch (Exception e) {
-//            // Handle database or other internal errors
-//            SuccessAndMessage response = new SuccessAndMessage();
-//            response.setSuccess(false);
-//            response.setMessage("Failed to create an available spot. Error: " + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-//        }
-//    }
-
-
-    @PostMapping("/createSpot/{parkingLotId}")
-    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpotsBody spotBody, @PathVariable Integer parkingLotId) {
+    @PostMapping("/createSpot/{id}")
+    public ResponseEntity<SuccessAndMessage> createAvailableSpot(@RequestBody AvailableSpotsBody spotBody, @PathVariable Integer id) {
         try {
             // Fetch the corresponding ParkingLots object using the provided parkingLotId
-            Optional<ParkingLots> optionalParkingLot = parkingLotsRepository.findById(parkingLotId);
+            Optional<ParkingLots> optionalParkingLot = parkingLotsRepository.findById(id);
             if (!optionalParkingLot.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
 
             ParkingLots parkingLot = optionalParkingLot.get();
 
-            // Create the AvailableSpots object using the provided AvailableSpotsBody and ParkingLots objects
             AvailableSpots spot = new AvailableSpots();
             spot.setSpotName(spotBody.getSpotName());
             spot.setAvailable(spotBody.isAvailable());
@@ -72,7 +48,6 @@ public class AvailableSpotsController {
                 response.setMessage("Successfully created a new available spot.");
                 return ResponseEntity.ok(response);
             } else {
-                // Some issue with the database, record not saved
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             }
         } catch (Exception e) {
