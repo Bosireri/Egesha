@@ -3,6 +3,7 @@ package com.eParking.Egesha.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -35,8 +36,19 @@ public class ParkingLots {
     @Column(name = "AboutFeatures", nullable = false)
     private String aboutFeatures;
 
-    @OneToMany(mappedBy = "parkingLot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parkingLot", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<AvailableSpots> availableSpots;
+
+    @OneToMany(mappedBy = "parkingLot")
+    private List<Booking> booking;
+
+    public List<Booking> getBooking() {
+        return booking;
+    }
+
+    public void setBooking(List<Booking> booking) {
+        this.booking = booking;
+    }
 
     public List<AvailableSpots> getAvailableSpots() {
         return availableSpots;
@@ -44,6 +56,16 @@ public class ParkingLots {
 
     public void setAvailableSpots(List<AvailableSpots> availableSpots) {
         this.availableSpots = availableSpots;
+    }
+
+    public void addAvailableSpot(AvailableSpots spot) {
+        spot.setParkingLot(this);
+        availableSpots.add(spot);
+    }
+
+    public void removeAvailableSpot(AvailableSpots spot) {
+        spot.setParkingLot(null);
+        availableSpots.remove(spot);
     }
 
     public Integer getId() {
