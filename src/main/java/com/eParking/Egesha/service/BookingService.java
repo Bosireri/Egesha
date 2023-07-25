@@ -3,6 +3,7 @@ package com.eParking.Egesha.service;
 import com.eParking.Egesha.model.AvailableSpots;
 import com.eParking.Egesha.model.Booking;
 import com.eParking.Egesha.model.ParkingLots;
+import com.eParking.Egesha.model.dao.AvailableSpotsRepository;
 import com.eParking.Egesha.model.dao.BookingRepository;
 import com.eParking.Egesha.model.dao.ParkingLotsRepository;
 import jakarta.transaction.Transactional;
@@ -18,11 +19,13 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final ParkingLotsRepository parkingLotsRepository;
+    private final AvailableSpotsRepository availableSpotsRepository;
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository, ParkingLotsRepository parkingLotsRepository) {
+    public BookingService(BookingRepository bookingRepository, ParkingLotsRepository parkingLotsRepository, AvailableSpotsRepository availableSpotsRepository) {
         this.bookingRepository = bookingRepository;
         this.parkingLotsRepository = parkingLotsRepository;
+        this.availableSpotsRepository = availableSpotsRepository;
     }
 
     //check the availability of a parking spot based on a given Booking object.
@@ -41,22 +44,36 @@ public class BookingService {
                 .anyMatch(spot -> spot.getSpotName().equals(selectedSpot) && spot.isAvailable());
     }
 
-    public void bookParkingSpot(Booking booking) {
-        if (isParkingSpotAvailable(booking)) {
-            // Set the current timestamp as the booking time
-            booking.setDate(LocalDate.now());
-            booking.setFrom(LocalTime.now());
-            booking.setTo(LocalTime.now());
+    public Booking bookParkingSlot(Integer parkingLotId, Integer availableSpotId, LocalDate date, LocalTime from, LocalTime to) {
+        ParkingLots parkingLot = parkingLotsRepository.findById(parkingLotId)
+                .orElseThrow(() -> new RuntimeException("Parking lot not found with ID: " + parkingLotId));
 
-            bookingRepository.save(booking);
-        } else {
-            throw new IllegalArgumentException("The selected parking spot is not available.");
-        }
+        AvailableSpots selectedSpot = availableSpotsRepository.findById(availableSpotId)
+                .orElseThrow(() -> new RuntimeException("Available spot not found with ID: " + availableSpotId));
+
+        Booking booking = new Booking();
+        booking.setParkingSpot(selectedSpot.getSpotName());
+        booking.setSpaceImage(parkingLot.getSpaceImage());
+        booking.setSpaceName(parkingLot.getSpaceName());
+        booking.setLocation(parkingLot.getLocation());
+        booking.setAmount(parkingLot.getAmount());
+        booking.setDate(date);
+        booking.setFrom(from);
+        booking.setTo(to);
+
+        // Save the booking in the database
+        Booking savedBooking = bookingRepository.save(booking);
+
+        // Mark the selected spot as booked
+        selectedSpot.setAvailable(false);
+        availableSpotsRepository.save(selectedSpot);
+
+        return savedBooking;
     }
 
     public Booking getBookingById(Integer bookingId) {
         return bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
     }
 
     public List<Booking> getAllBookings() {
