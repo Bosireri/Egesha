@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,8 +48,9 @@ public class ParkingLotController {
             throw new RuntimeException(e);
         }
     }
-    @PutMapping("/updateParkingLot/{id}")
-    public ResponseEntity<SuccessAndMessage> updateParkingLot(Integer id, ParkingLots updatedParkingLot) {
+//    @PutMapping("/updateParkingLot/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/updateParkingLot/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<SuccessAndMessage> updateParkingLot(@PathVariable Integer id, @ModelAttribute ParkingLots updatedParkingLot) {
         SuccessAndMessage response = new SuccessAndMessage();
         ParkingLots existingParkingLot = parkingLotsRepository.findById(id).orElse(null);
         if (existingParkingLot != null) {
@@ -65,12 +67,10 @@ public class ParkingLotController {
             response.setMessage("Parking lot updated Successfully");
             response.setSuccess(true);
             return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
-//            return new SuccessAndMessage(true, "Parking lot updated successfully", updatedLot);
         }
         response.setMessage( "Parking lot not found");
         response.setSuccess(false);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-//        return new SuccessAndMessage(false,"Parking lot not found", null);
     }
 
     @GetMapping("/displayLot/{id}")
