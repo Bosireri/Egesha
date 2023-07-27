@@ -57,7 +57,7 @@ public class AdminService {
         if (!(localUserRepository.existsById(userId))) {
             response.setMessage("User does not exist");
             response.setSuccess(false);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         localUserRepository.deleteById(userId);
         response.setMessage("User deleted Successfully");
