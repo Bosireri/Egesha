@@ -2,6 +2,7 @@ package com.eParking.Egesha.api.controller.auth;
 
 import com.eParking.Egesha.model.AvailableSpots;
 import com.eParking.Egesha.model.Booking;
+import com.eParking.Egesha.model.ParkingLots;
 import com.eParking.Egesha.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
