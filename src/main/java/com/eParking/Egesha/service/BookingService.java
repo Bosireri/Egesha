@@ -61,7 +61,6 @@ public class BookingService {
         booking.setFrom(from);
         booking.setTo(to);
 
-        // Save the booking in the database
         Booking savedBooking = bookingRepository.save(booking);
 
         // Mark the selected spot as booked
@@ -87,9 +86,6 @@ public class BookingService {
     @Transactional
     public void cancelBooking(Integer bookingId) {
         Booking booking = getBookingById(bookingId);
-
-        // Perform additional checks or business logic before cancellation
-
         bookingRepository.delete(booking);
     }
 }
