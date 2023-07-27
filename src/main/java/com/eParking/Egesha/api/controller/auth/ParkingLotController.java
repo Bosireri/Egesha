@@ -48,9 +48,10 @@ public class ParkingLotController {
             throw new RuntimeException(e);
         }
     }
-//    @PutMapping("/updateParkingLot/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PutMapping(value = "/updateParkingLot/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<SuccessAndMessage> updateParkingLot(@PathVariable Integer id, @ModelAttribute ParkingLots updatedParkingLot) {
+    public ResponseEntity<SuccessAndMessage> updateParkingLot(@PathVariable Integer id,
+                                                              @RequestHeader(name="Authorization") String token,
+                                                              @ModelAttribute ParkingLots updatedParkingLot) {
         SuccessAndMessage response = new SuccessAndMessage();
         ParkingLots existingParkingLot = parkingLotsRepository.findById(id).orElse(null);
         if (existingParkingLot != null) {
