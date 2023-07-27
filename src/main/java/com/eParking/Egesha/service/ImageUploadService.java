@@ -35,6 +35,7 @@ public class ImageUploadService {
         if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
             return fileName.substring(dotIndex + 1).toLowerCase();
         }
+
         return "";
     }
 
