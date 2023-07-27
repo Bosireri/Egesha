@@ -42,7 +42,7 @@ public class AdminController {
                                                                          @RequestHeader (name = "Authorization") String token) throws IOException {
         SuccessAndMessage response = new SuccessAndMessage();
         if(localUserRepository.existsByPhoneNumber(registrationBody.getPhoneNumber())) {
-            response.setMessage("Email is already registered");
+            response.setMessage("Phone Number is already registered");
             response.setSuccess(false);
             return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -54,7 +54,7 @@ public class AdminController {
         user.setPassword(passwordEncoder.encode(registrationBody.getPassword()));
         localUserRepository.save(user);
         response.setMessage("User Registered Successfully");
-        response.setSuccess(false);
+        response.setSuccess(true);
         return new ResponseEntity<SuccessAndMessage>(response, HttpStatus.OK);
     }
 
