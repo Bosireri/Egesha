@@ -2,6 +2,7 @@ package com.eParking.Egesha.api.controller.auth;
 
 import com.eParking.Egesha.api.dto.AvailableSpotsBody;
 import com.eParking.Egesha.api.dto.SuccessAndMessage;
+import com.eParking.Egesha.api.dto.UniversalResponse;
 import com.eParking.Egesha.model.AvailableSpots;
 import com.eParking.Egesha.model.ParkingLots;
 import com.eParking.Egesha.model.dao.AvailableSpotsRepository;
@@ -59,19 +60,36 @@ public class AvailableSpotsController {
         }
     }
 
+//    @GetMapping("/getSpot/{id}")
+//    public ResponseEntity<SuccessAndMessage> getAvailableSpotById(@PathVariable Integer id) {
+//        Optional<AvailableSpots> optionalSpot = availableSpotsRepository.findById(id);
+//        SuccessAndMessage response = new SuccessAndMessage();
+//        if (optionalSpot.isPresent()) {
+//            response.setSuccess(true);
+//            response.setMessage("Successfully retrieved available spot with ID: " + id);
+//            return ResponseEntity.ok(response);
+//        } else {
+//            response.setSuccess(false);
+//            response.setMessage("Available spot with ID: " + id + " not found.");
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @GetMapping("/getSpot/{id}")
-    public ResponseEntity<SuccessAndMessage> getAvailableSpotById(@PathVariable Integer id) {
-        Optional<AvailableSpots> optionalSpot = availableSpotsRepository.findById(id);
-        SuccessAndMessage response = new SuccessAndMessage();
-        if (optionalSpot.isPresent()) {
-            response.setSuccess(true);
-            response.setMessage("Successfully retrieved available spot with ID: " + id);
-            return ResponseEntity.ok(response);
-        } else {
-            response.setSuccess(false);
-            response.setMessage("Available spot with ID: " + id + " not found.");
-            return ResponseEntity.notFound().build();
-        }
+    public UniversalResponse getAvailableSpotById(@PathVariable("id") Integer id) {
+        AvailableSpots availableSpots =availableSpotsRepository.findById((id)).orElse(null);
+        if (availableSpots==null)
+            return UniversalResponse.builder()
+                    .message("Available Spot not found")
+                    .status(404)
+                    .data(null)
+                    .errors(null)
+                    .build();
+        return UniversalResponse.builder()
+                .message("Available Spot retrieved")
+                .status(200)
+                .data(availableSpots)
+                .build();
     }
 
     @PutMapping("/updateSpot/{id}")
