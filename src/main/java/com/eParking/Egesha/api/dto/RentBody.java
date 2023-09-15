@@ -10,7 +10,7 @@ public class RentBody {
     private String location;
 
     @NotNull
-    private LocalDate dates;
+    private String dates;
 
     @NotNull
     private String operator;
@@ -19,7 +19,7 @@ public class RentBody {
         return location;
     }
 
-    public LocalDate getDates() {
+    public String getDates() {
         return dates;
     }
 
