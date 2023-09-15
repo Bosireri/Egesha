@@ -17,7 +17,7 @@ public class Rent {
     private String location;
 
     @Column(name = "dates", nullable = false)
-    private LocalDate dates;
+    private String dates;
 
     @Column(name = "operator", nullable = false)
     private String operator;
@@ -38,11 +38,11 @@ public class Rent {
         this.location = location;
     }
 
-    public LocalDate getDates() {
+    public String getDates() {
         return dates;
     }
 
-    public void setDates(LocalDate dates) {
+    public void setDates(String dates) {
         this.dates = dates;
     }
 
