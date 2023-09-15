@@ -20,9 +20,9 @@ public class ImageUploadService {
 
         String originalFilename = file.getOriginalFilename();
         String fileExtension = getFileExtension(originalFilename);
-        String uniqueFileName = generateUniqueFileName(fileExtension);
+//        String uniqueFileName = generateUniqueFileName(fileExtension);
         String storageLocation = "C:\\Users\\nyabu\\Desktop\\Egesha\\Images\\";
-        String filePath = storageLocation + uniqueFileName;
+        String filePath = storageLocation + originalFilename;
 
         Path destinationPath = Path.of(filePath);
         Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
@@ -39,12 +39,12 @@ public class ImageUploadService {
         return "";
     }
 
-    private String generateUniqueFileName(String fileExtension) {
-        String uniqueFileName = UUID.randomUUID().toString();
-        if (!fileExtension.isEmpty()) {
-            uniqueFileName += "." + fileExtension;
-        }
-        return uniqueFileName;
-    }
+//    private String generateUniqueFileName(String fileExtension) {
+//        String uniqueFileName = UUID.randomUUID().toString();
+//        if (!fileExtension.isEmpty()) {
+//            uniqueFileName += "." + fileExtension;
+//        }
+//        return uniqueFileName;
+//    }
 
 }
