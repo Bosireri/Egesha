@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface Rents extends JpaRepository <Rent, String> {
+public interface RentsRepository extends JpaRepository <Rent, String> {
 
-    Optional<Rents> findByAgentId (Integer  agentId);
+    Optional<RentsRepository> findByAgentId (Integer  agentId);
 
 }
