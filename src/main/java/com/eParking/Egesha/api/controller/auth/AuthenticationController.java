@@ -4,8 +4,10 @@ import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
+import com.eParking.Egesha.model.Rent;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
+import com.eParking.Egesha.model.dao.Rents;
 import com.eParking.Egesha.service.UserTypeService;
 import com.eParking.Egesha.model.dao.LocalUserRepository;
 import com.eParking.Egesha.service.UserService;
@@ -20,8 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -33,6 +33,8 @@ public class AuthenticationController {
     AdminRepository adminRepository;
     @Autowired
     LocalUserRepository localUserRepository;
+    @Autowired
+    Rents rents;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -100,5 +102,15 @@ public class AuthenticationController {
     public ResponseEntity<SuccessAndMessage> updateUser (@PathVariable Integer userId, @Valid @RequestBody UserUpdate userUpdate, @RequestHeader(name="Authorization") String jwt) {
         System.out.println("userUpdate");
         return userService.updateUser(userId, userUpdate);
+    }
+
+    @PostMapping("rent")
+    public Rent rentDetails (@RequestBody RentBody rentsBody) {
+        Rent rentDetails = new Rent();
+        rentDetails.setLocation(rentsBody.getLocation());
+        rentDetails.setDates(rentsBody.getDates());
+        rentDetails.setOperator(rentsBody.getOperator());
+        rentDetails = rents.save(rentDetails);
+        return rents.save (rentDetails);
     }
 }
