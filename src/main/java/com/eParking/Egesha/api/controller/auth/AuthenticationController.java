@@ -4,10 +4,8 @@ import com.eParking.Egesha.api.dto.*;
 import com.eParking.Egesha.api.security.JWTGenerator;
 import com.eParking.Egesha.exception.UserAlreadyExistsException;
 import com.eParking.Egesha.model.Admin;
-import com.eParking.Egesha.model.Rent;
 import com.eParking.Egesha.model.UserType;
 import com.eParking.Egesha.model.dao.AdminRepository;
-import com.eParking.Egesha.model.dao.RentsRepository;
 import com.eParking.Egesha.service.UserTypeService;
 import com.eParking.Egesha.model.dao.LocalUserRepository;
 import com.eParking.Egesha.service.UserService;
@@ -70,9 +68,9 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public AuthenticationController(UserService userService) {
-        this.userService = userService;
-    }
+//    public AuthenticationController(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @PostMapping("/registerUser")
     public ResponseEntity<SuccessAndMessage> registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
